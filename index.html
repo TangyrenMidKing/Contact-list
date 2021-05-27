@@ -2,7 +2,7 @@
   <head>
      <title>ContectBook</title>
      <link href="css/style.css" rel="stylesheet">
-     <script src="js/new.js"></script>
+     <script src="js/log_in.js"></script>
   </head>
 
   <body>
@@ -12,7 +12,9 @@
         <h1>Sign In</h1>
         <input type="text" id="sign_in_name" placeholder="username" /><br />
         <input type="password" id="sign_in_password" placeholder="password"/><br />
-        <button type="button" id="sign_in_button" class="bottom_buttons" onclick="doSignIn();"> Sign in </button>
+        <button type="button" id="sign_in_button" class="bottom_buttons" onclick="doLogin()"> Sign in </button>
+        <br /><br />
+        <span id="loginResult"></span>
       </div>
       <div class="slider_div" style="float:right" >
         <h2>New here?</h2>
@@ -26,9 +28,14 @@
       <div class="form_div" style="float:right;">
         <h1>Sign Up</h1>
         <input type="text" id="sign_up_name" placeholder="username" /><br />
-        <input type="password" id="sign_up_Password" placeholder="password" /><br />
-        <input type="email" id="sign_up_email" placeholder="email"/><br />
-        <button type="button" id="sign_up_button" class="bottom_buttons" onclick="doSignUp();"> Sign up </button>
+        <input type="password" id="sign_up_password" placeholder="password" /><br />
+        <input type="first_name" id="sign_up_firstname" placeholder="first name (optional)" /><br />
+        <input type="laste_name" id="sign_up_lastname" placeholder="last name (opstional)"/><br />
+        <button type="button" id="sign_up_button" class="bottom_buttons" onclick="doSignUp()"> Sign up </button>
+        <br /><br />
+        <span id="bland_alert"> </span>
+        <br /><br />
+        <span id="signupResult"> </span>
       </div>
       <div class="slider_div" style="float:left;">
         <h2>One of us?</h2>
@@ -36,5 +43,6 @@
         <button type="button" class="bnt" id = 'sign_in_slider' onclick="showSignIn()"> Sign in </button>
       </div>
     </div>
+
   </body>
 </html>
