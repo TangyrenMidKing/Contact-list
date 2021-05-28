@@ -11,7 +11,7 @@ function showSignUp()
 }
 
 
-var urlBase = 'http://radioactivecows.com/API/';
+var urlBase = 'http://matthewmackinnon.org/API/';
 var extension = 'php';
 
 var userId = 0;
