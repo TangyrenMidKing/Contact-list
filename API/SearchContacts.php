@@ -33,9 +33,9 @@
 	else
 	{	
 		
-		$stmt = $conn->prepare("SELECT * FROM ContactCards WHERE UserID=? and FirstName like ?");
-		$firstName = "%" . $inData["search"] . "%";
-		$stmt->bind_param("ss", $inData["userId"], $firstName);
+		$stmt = $conn->prepare("SELECT * FROM ContactCards WHERE UserID=? and (FirstName like ? or LastName like ? or PhoneNumber like ? or Email like ?)");
+		$search = "%" . $inData["search"] . "%";
+		$stmt->bind_param("sssss", $inData["userId"], $search, $search, $search, $search);
 		$stmt->execute();
 		
 		$result = $stmt->get_result();
