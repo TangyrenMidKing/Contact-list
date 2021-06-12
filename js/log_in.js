@@ -1,17 +1,36 @@
-function  showSignIn()
+function cambiar_login()
 {
-  document.getElementById("sign_in").style.display='inline-block';
-  document.getElementById("sign_up").style.display='none';
+  document.getElementById("signupResult").value = "";
+  document.getElementById("loginResult").innerHTML = "";
+
+  document.querySelector('.cont_forms').className = "cont_forms cont_forms_active_login";
+  document.querySelector('.cont_form_login').style.display = "block";
+  document.querySelector('.cont_form_sign_up').style.opacity = "0";
+
+  setTimeout(function(){  document.querySelector('.cont_form_login').style.opacity = "1"; },400);
+
+  setTimeout(function(){
+  document.querySelector('.cont_form_sign_up').style.display = "none";
+  },200);
 }
 
-function showSignUp()
+function cambiar_sign_up(at)
 {
-  document.getElementById("sign_up").style.display='inline-block';
-  document.getElementById('sign_in').style.display='none';
+  document.getElementById("signupResult").value = "";
+  document.getElementById("loginResult").innerHTML = "";
+
+  document.querySelector('.cont_forms').className = "cont_forms cont_forms_active_sign_up";
+  document.querySelector('.cont_form_sign_up').style.display = "block";
+  document.querySelector('.cont_form_login').style.opacity = "0";
+
+  setTimeout(function(){  document.querySelector('.cont_form_sign_up').style.opacity = "1";
+  },100);
+
+  setTimeout(function(){  document.querySelector('.cont_form_login').style.display = "none";
+  },400);
 }
 
-
-var urlBase = 'http://matthewmackinnon.org/API/';
+var urlBase = 'http://cop4331.online/API';
 var extension = 'php';
 
 var userId = 0;
@@ -26,11 +45,8 @@ function doLogin()
 
 	var login = document.getElementById("sign_in_name").value;
 	var password = document.getElementById("sign_in_password").value;
-//	var hash = md5( password );
+  // var hash = md5( password );
 
-	document.getElementById("loginResult").innerHTML = "";
-
-//	var jsonPayload = '{"login" : "' + login + '", "password" : "' + hash + '"}';
 	var jsonPayload = '{"login" : "' + login + '", "password" : "' + password + '"}';
 	var url = urlBase + '/Login.' + extension;
 
@@ -105,10 +121,10 @@ function readCookie()
 	{
 		window.location.href = "index.html";
 	}
-	else
-	{
-		document.getElementById("userName").innerHTML = "Logged in as " + firstName + " " + lastName;
-	}
+  else
+  {
+    document.getElementById("title").innerHTML = "Welcome back, " + firstName + " " + lastName;
+  }
 }
 
 function doLogout()
@@ -119,6 +135,7 @@ function doLogout()
 	document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
 	window.location.href = "index.html";
 }
+
 
 function doSignUp()
 {
@@ -133,15 +150,15 @@ function doSignUp()
 
   if (username == 0)
   {
-    document.getElementById("bland_alert").innerHTML = "Invaild user name";
+    document.getElementById("signupResult").innerHTML = "Invaild user name";
   }
   else if (password == 0)
   {
-    document.getElementById("bland_alert").innerHTML = "Invaild password";
+    document.getElementById("signupResult").innerHTML = "Invaild password";
   }
   else if (password.length < 8)
   {
-    document.getElementById("bland_alert").innerHTML = "Password length must greater 8 characters";
+    document.getElementById("signupResult").innerHTML = "Password length at least 8 characters";
   }
   else
   {
@@ -150,14 +167,13 @@ function doSignUp()
     {
       firstname = "spider";
     }
-    else if (lastname == 0)
+    if (lastname == 0)
     {
       lastname = "man";
     }
 
-    //	var jsonPayload = '{"login" : "' + login + '", "password" : "' + hash + '"}';
   	var jsonPayload = '{"firstname" : "' + firstname + '", "lastname" : "' + lastname
-                            + '", "login" : "' + username + '", "password" : "' + password+ '"}';
+                        + '", "login" : "' + username + '", "password" : "' + password + '"}';
   	var url = urlBase + '/Register.' + extension;
 
   	var xhr = new XMLHttpRequest();
@@ -167,7 +183,7 @@ function doSignUp()
   	{
   		xhr.send(jsonPayload);
       document.getElementById("signupResult").innerHTML = "You are one of Us now!";
-      setTimeout(() => {  showSignIn(); }, 2000);
+      setTimeout(() => {  cambiar_login(); }, 2000);
   	}
   	catch(err)
   	{
@@ -201,18 +217,8 @@ function create()
   }
   else
   {
-    // expected JSON
-    // {
-    //    "userId" : "0",
-    //    "firstname" : "firstname",
-    //    "lastname" : "lastname",
-    //    "phonenumber" : "phonenumber",
-    //    "email" : "email@email.com"
-    // }
-
-    //	var jsonPayload = '{"login" : "' + login + '", "password" : "' + hash + '"}';
-    var jsonPayload = '{"userId" : "' + 0 + ', "firstname" : "' + firstname + '", "lastname" : "' + lastname
-                            + '", "phonenumber" : "' + phone_num + '", "email" : "' + email+ '"}';
+    var jsonPayload = '{ "userId" : "' + userId +'", "firstname" : "' + firstname + '", "lastname" : "' + lastname
+                        + '", "phonenumber" : "' + phone_num + '", "email" : "' + email + '"}';
     var url = urlBase + '/AddContact.' + extension;
 
     var xhr = new XMLHttpRequest();
@@ -222,27 +228,148 @@ function create()
     {
       xhr.send(jsonPayload);
       document.getElementById("createResult").innerHTML = "New friend set up!";
-      setTimeout(() => {  showSignIn(); }, 2000);
     }
     catch(err)
     {
       document.getElementById("createResult").innerHTML = err.message;
     }
   }
+  resetCreate();
+}
+
+function resetCreate()
+{
+  document.getElementById("create_first_name").value = "";
+  document.getElementById("create_last_name").value = "";
+  document.getElementById("create_phone_num").value = "";
+  document.getElementById("create_email").value = "";
+  selectedRow = null;
 }
 
 function read()
 {
+  var search_val = document.getElementById("search_text").value;
+
+  // if (search_val == 0)
+  // {
+  //   document.getElementById("searchAlert").innerHTML = "Invaild search value";
+  // }
+
+  var jsonPayload = '{"userId" : "' + userId + '", "search" : "' + search_val + '"}';
+  var url = urlBase + '/SearchContacts.' + extension;
+
   var xhr = new XMLHttpRequest();
-  xhr.open("GET", url, true);
+  xhr.open("POST", url, false);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
   try
   {
-    xhr.send();
-    var contentType = xhr.getResponseHeader("Content-Type");
-    document.getElementById("readResult").innerHTML = contentType;
+    xhr.send(jsonPayload);
+    var jsonObject = JSON.parse( xhr.responseText );
+    var result = jsonObject.results;
+    create_table(result);
   }
   catch(err)
   {
-    document.getElementById("readResult").innerHTML = err.message;
+    document.getElementById("searchAlert").innerHTML = "Record not found";
   }
+}
+
+function create_table(data)
+{
+  document.getElementById('myTable').innerHTML = "";
+  var list = "";
+
+  for (var i = 0; i < data.length; i++)
+  {
+    list += "<tr> <td>" + data[i].id + "</td>" +
+            "<td>" + data[i].firstName + "</td>" +
+            "<td>" + data[i].lastName + "</td>" +
+            "<td>" + data[i].phoneNumber + "</td>" +
+            "<td>" + data[i].email + "</td>" +
+            "<td> <button type='button' onclick='show_update(" + data[i] + ");'>Update</button>" +
+            "<button type='button' onclick='onDelete("+ data[i].id +");'>Delete</button> </td>"
+            + "</tr>";
+  }
+  document.getElementById('myTable').innerHTML = list;
+}
+
+function onDelete(id)
+{
+  document.getElementById("searchAlert").innerHTML = "";
+
+  if (confirm("Are you sure you want to delete?") == false)
+    return;
+
+  var jsonPayload = '{"id" : "' + id + '"}';
+  var url = urlBase + '/DeleteContact.' + extension;
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+  try
+  {
+    xhr.onreadystatechange = function()
+    {
+      if (this.readyState == 4 && this.status == 200)
+      {
+        document.getElementById("searchAlert").innerHTML = "Successfully Deleted";
+      }
+    };
+    xhr.send(jsonPayload);
+  }
+  catch(err)
+  {
+    document.getElementById("deleteResult").innerHTML = err.message;
+  }
+}
+
+function show_update(row)
+{
+  document.getElementById("update_div").style.display = "block";
+  document.getElementById("create_div").style.display = "none";
+
+  document.getElementById("update_first_name").value = row.firstName;
+  document.getElementById("update_last_name").value = row.lastName;
+  document.getElementById("update_phone_num").value = row.phoneNumber;
+  document.getElementById("update_email").value = row.email;
+
+  if (document.getElementById("update_bnt").cliked == true)
+    update(row);
+}
+
+function update(row)
+{
+  console.log("MAKE HERE 335!");
+
+  var id = row.id;
+  var firstname = document.getElementById("update_first_name").value;
+  var lastname = document.getElementById("update_last_name").value;
+  var phonenumber = document.getElementById("update_phone_num").value;
+  var email = document.getElementById("update_email").value;
+
+  var jsonPayload = '{"id" : "' + id + +'", "firstname" : "' + firstname + '", "lastname" : "' + lastname
+                      + '", "phonenumber" : "' + phone_num + '", "email" : "' + email + '"}';
+  var url = urlBase + '/UpdateContact.' + extension;
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+  try
+  {
+    xhr.onreadystatechange = function()
+    {
+      if (this.readyState == 4 && this.status == 200)
+      {
+        document.getElementById("updateResult").innerHTML = "Successfully Deleted";
+      }
+    };
+    xhr.send(jsonPayload);
+  }
+  catch(err)
+  {
+    document.getElementById("updateResult").innerHTML = err.message;
+  }
+
+  document.getElementById("create_div").style.display = "block";
+  document.getElementById("update_div").style.display = "none";
 }
