@@ -36,6 +36,7 @@ var extension = 'php';
 var userId = 0;
 var firstName = "";
 var lastName = "";
+var contact_id = 0;
 
 function doLogin()
 {
@@ -45,9 +46,9 @@ function doLogin()
 
 	var login = document.getElementById("sign_in_name").value;
 	var password = document.getElementById("sign_in_password").value;
-  // var hash = md5( password );
+  var hash = md5( password );
 
-	var jsonPayload = '{"login" : "' + login + '", "password" : "' + password + '"}';
+	var jsonPayload = '{"login" : "' + login + '", "password" : "' + hash + '"}';
 	var url = urlBase + '/Login.' + extension;
 
 	var xhr = new XMLHttpRequest();
@@ -171,9 +172,10 @@ function doSignUp()
     {
       lastname = "man";
     }
+    var hash = md5( password );
 
   	var jsonPayload = '{"firstname" : "' + firstname + '", "lastname" : "' + lastname
-                        + '", "login" : "' + username + '", "password" : "' + password + '"}';
+                        + '", "login" : "' + username + '", "password" : "' + hash + '"}';
   	var url = urlBase + '/Register.' + extension;
 
   	var xhr = new XMLHttpRequest();
@@ -194,6 +196,8 @@ function doSignUp()
 
 function create()
 {
+  document.getElementById("createResult").innerHTML = "";
+
   var firstname = document.getElementById("create_first_name").value;
   var lastname = document.getElementById("create_last_name").value;
   var phone_num = document.getElementById("create_phone_num").value;
@@ -248,12 +252,8 @@ function resetCreate()
 
 function read()
 {
+  document.getElementById("createResult").innerHTML = "";
   var search_val = document.getElementById("search_text").value;
-
-  // if (search_val == 0)
-  // {
-  //   document.getElementById("searchAlert").innerHTML = "Invaild search value";
-  // }
 
   var jsonPayload = '{"userId" : "' + userId + '", "search" : "' + search_val + '"}';
   var url = urlBase + '/SearchContacts.' + extension;
@@ -270,7 +270,7 @@ function read()
   }
   catch(err)
   {
-    document.getElementById("searchAlert").innerHTML = "Record not found";
+    document.getElementById("searchAlert").innerHTML = "No record found";
   }
 }
 
@@ -286,7 +286,7 @@ function create_table(data)
             "<td>" + data[i].lastName + "</td>" +
             "<td>" + data[i].phoneNumber + "</td>" +
             "<td>" + data[i].email + "</td>" +
-            "<td> <button type='button' onclick='show_update(" + data[i] + ");'>Update</button>" +
+            "<td> <button type='button' onclick='show_update(" + data[i].id + ");'>Update</button>" +
             "<button type='button' onclick='onDelete("+ data[i].id +");'>Delete</button> </td>"
             + "</tr>";
   }
@@ -323,32 +323,30 @@ function onDelete(id)
   }
 }
 
-function show_update(row)
+function show_update(id)
 {
+  contact_id = 0;
   document.getElementById("update_div").style.display = "block";
   document.getElementById("create_div").style.display = "none";
+  document.getElementById("update_first_name").value = "";
+  document.getElementById("update_last_name").value = "";
+  document.getElementById("update_phone_num").value = "";
+  document.getElementById("update_email").value = "";
+  document.getElementById("updateResult").innerHTML = "";
 
-  document.getElementById("update_first_name").value = row.firstName;
-  document.getElementById("update_last_name").value = row.lastName;
-  document.getElementById("update_phone_num").value = row.phoneNumber;
-  document.getElementById("update_email").value = row.email;
-
-  if (document.getElementById("update_bnt").cliked == true)
-    update(row);
+  contact_id = id;
 }
 
-function update(row)
+function update()
 {
-  console.log("MAKE HERE 335!");
-
-  var id = row.id;
   var firstname = document.getElementById("update_first_name").value;
   var lastname = document.getElementById("update_last_name").value;
   var phonenumber = document.getElementById("update_phone_num").value;
   var email = document.getElementById("update_email").value;
 
-  var jsonPayload = '{"id" : "' + id + +'", "firstname" : "' + firstname + '", "lastname" : "' + lastname
-                      + '", "phonenumber" : "' + phone_num + '", "email" : "' + email + '"}';
+  var jsonPayload = '{"id" : "' + contact_id +'", "firstname" : "' + firstname + '", "lastname" : "' +     lastname + '", "phonenumber" : "' + phonenumber + '", "email" : "' + email + '"}';
+
+  console.log(jsonPayload);
   var url = urlBase + '/UpdateContact.' + extension;
 
   var xhr = new XMLHttpRequest();
@@ -360,7 +358,7 @@ function update(row)
     {
       if (this.readyState == 4 && this.status == 200)
       {
-        document.getElementById("updateResult").innerHTML = "Successfully Deleted";
+        document.getElementById("updateResult").innerHTML = "Successfully updated";
       }
     };
     xhr.send(jsonPayload);
