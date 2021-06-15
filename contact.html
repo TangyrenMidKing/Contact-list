@@ -15,35 +15,36 @@
   </script>
 
 </head>
-<body>
+<body class="contact">
 
 <h1 id="title">Welcome back, friend!</h1>
 
 
 
 <div id="create_div">
-  <input type="text" id="create_first_name" placeholder="first name">
-	<input type="text" id="create_last_name" placeholder="last name">
-  <input type="text" id="create_phone_num" placeholder="phone number">
-  <input type="text" id="create_email" placeholder="email"><br />
-  <button type="button" id="create_bnt" class="buttons" onclick="create();"> Add Friend </button><br />
+  <input type="text" class="in" id="create_first_name" placeholder="first name">
+	<input type="text" class="in" id="create_last_name" placeholder="last name">
+  <input type="text" class="in" id="create_phone_num" placeholder="phone number">
+  <input type="text" class="in" id="create_email" placeholder="email"><br />
+  <button type="button" id="create_bnt" class="btn" onclick="create();"> Add Friend </button><br />
   <span id="createResult"></span>
 </div>
 
-<div id="update_div" class='hidden'>
-  <input type="text" id="update_first_name" placeholder="first name">
-	<input type="text" id="update_last_name" placeholder="last name">
-  <input type="text" id="update_phone_num" placeholder="phone number">
-  <input type="text" id="update_email" placeholder="email"><br />
-  <button type="button" id="update_bnt" class="buttons" onclick="update();"> Update </button><br />
+<div id="update_div" class="hidden">
+  <input type="text" class="in" id="update_first_name" placeholder="first name"><br />
+	<input type="text" class="in" id="update_last_name" placeholder="last name"><br />
+  <input type="text" class="in" id="update_phone_num" placeholder="phone number"><br />
+  <input type="text" class="in" id="update_email" placeholder="email"><br />
+  <button type="button" id="update_bnt" class="btn" onclick="update();"> Update </button>
+	<button type="button" id="update_cancel_bnt" class="btn" onclick="update_cancel();"> Cancel </button>
   <span id="updateResult"></span>
 </div>
 
 <br /><br />
 
 <div id="read_div">
-	<input type="text" id="search_text" placeholder="search for"><br />
-	<button type="button" id="search_bnt" class="buttons" onclick="read();"> Search From List </button>
+	<input type="text" class="in" id="search_text" placeholder="search for"><br />
+	<button type="button" id="search_bnt" class="btn" onclick="read();"> Search From List </button>
 	<br /><br />
 	<style>
 	th{
@@ -79,7 +80,7 @@
 
 <div id="log_out_div">
 	<span id="userName"></span><br />
-	<button type="button" id="log_out_button" class="buttons" onclick="doLogout();"> Log Out </button>
+	<button type="button" id="log_out_button" class="btn" onclick="doLogout();"> Log Out </button>
 </div>
 
 

@@ -1,6 +1,6 @@
 function cambiar_login()
 {
-  document.getElementById("signupResult").value = "";
+  document.getElementById("signupResult").innerHTML = "";
   document.getElementById("loginResult").innerHTML = "";
 
   document.querySelector('.cont_forms').className = "cont_forms cont_forms_active_login";
@@ -16,7 +16,7 @@ function cambiar_login()
 
 function cambiar_sign_up(at)
 {
-  document.getElementById("signupResult").value = "";
+  document.getElementById("signupResult").innerHTML = "";
   document.getElementById("loginResult").innerHTML = "";
 
   document.querySelector('.cont_forms').className = "cont_forms cont_forms_active_sign_up";
@@ -253,6 +253,8 @@ function resetCreate()
 function read()
 {
   document.getElementById("createResult").innerHTML = "";
+  document.getElementById("searchAlert").innerHTML = "";
+
   var search_val = document.getElementById("search_text").value;
 
   var jsonPayload = '{"userId" : "' + userId + '", "search" : "' + search_val + '"}';
@@ -286,8 +288,8 @@ function create_table(data)
             "<td>" + data[i].lastName + "</td>" +
             "<td>" + data[i].phoneNumber + "</td>" +
             "<td>" + data[i].email + "</td>" +
-            "<td> <button type='button' onclick='show_update(" + data[i].id + ");'>Update</button>" +
-            "<button type='button' onclick='onDelete("+ data[i].id +");'>Delete</button> </td>"
+            "<td> <button type='button' class='cd_btn' onclick='show_update(" + data[i].id + ");'>Update</button>" +
+            "<button type='button' class='cd_btn' onclick='onDelete("+ data[i].id +");'>Delete</button> </td>"
             + "</tr>";
   }
   document.getElementById('myTable').innerHTML = list;
@@ -326,15 +328,48 @@ function onDelete(id)
 function show_update(id)
 {
   contact_id = 0;
+  contact_firstname = "";
+  contact_lastname = "";
+  contact_phonenumber = "";
+  contact_email = "";
   document.getElementById("update_div").style.display = "block";
-  document.getElementById("create_div").style.display = "none";
-  document.getElementById("update_first_name").value = "";
-  document.getElementById("update_last_name").value = "";
-  document.getElementById("update_phone_num").value = "";
-  document.getElementById("update_email").value = "";
+  // document.getElementById("create_div").style.display = "none";
+  // document.getElementById("update_first_name").value = "";
+  // document.getElementById("update_last_name").value = "";
+  // document.getElementById("update_phone_num").value = "";
+  // document.getElementById("update_email").value = "";
   document.getElementById("updateResult").innerHTML = "";
 
   contact_id = id;
+
+  var jsonPayload = '{"contactcardId" : "' + id + '"}';
+
+  console.log(jsonPayload);
+  var url = urlBase + '/UpdateContactForm.' + extension;
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", url, false);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+  try
+  {
+    xhr.send(jsonPayload);
+    var jsonObject = JSON.parse( xhr.responseText );
+    var result = jsonObject;
+
+    document.getElementById("update_first_name").value = result.firstName;
+    document.getElementById("update_last_name").value = result.lastName;
+    document.getElementById("update_phone_num").value = result.phonenumber;
+    document.getElementById("update_email").value = result.email;
+  }
+  catch(err)
+  {
+    document.getElementById("searchAlert").innerHTML = "No record found";
+  }
+}
+
+function update_cancel()
+{
+  document.getElementById("update_div").style.display = "none";
 }
 
 function update()
@@ -368,6 +403,5 @@ function update()
     document.getElementById("updateResult").innerHTML = err.message;
   }
 
-  document.getElementById("create_div").style.display = "block";
   document.getElementById("update_div").style.display = "none";
 }
