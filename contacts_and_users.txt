@@ -1,0 +1,53 @@
+
+CREATE TABLE `Contacts`.`Users`
+(
+  `ID` INT NOT NULL AUTO_INCREMENT ,
+  `DateCreated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+  `DateLastLoggedIn` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+  `FirstName` VARCHAR(50) NOT NULL DEFAULT '' ,
+  `LastName` VARCHAR(50) NOT NULL DEFAULT '' ,
+  `Login` VARCHAR(50) NOT NULL DEFAULT '' ,
+  `Password` VARCHAR(50) NOT NULL DEFAULT '' ,
+   PRIMARY KEY (`ID`)
+)
+ ENGINE = InnoDB;
+
+
+CREATE TABLE `Contacts`.`ContactCards`
+(
+  `ID` INT NOT NULL AUTO_INCREMENT ,
+  `FirstName` VARCHAR(50) NOT NULL DEFAULT '' ,
+  `LastName` VARCHAR(50) NOT NULL DEFAULT '' ,
+  `PhoneNumber` VARCHAR(50) NOT NULL DEFAULT '' ,
+  `Email` VARCHAR(50) NOT NULL DEFAULT '' ,
+  `DateCreated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UserID` INT NOT NULL DEFAULT '0' ,
+  PRIMARY KEY (`ID`)
+)
+  ENGINE = InnoDB;
+
+insert into Users (FirstName,LastName,Login,Password) VALUES ('Rick','Leinecker','RickL','COP4331');
+insert into Users (FirstName,LastName,Login,Password) VALUES ('Sam','Hill','SamH','Test');
+insert into Users (FirstName,LastName,Login,Password) VALUES ('Alex','Jordan','AJordan','1234');
+
+
+
+insert into ContactCards(FirstName, LastName, PhoneNumber, Email, UserID) VALUES ('Smith', 'John', '0987654321', "Smithjohn@gmail.com", '1');
+insert into ContactCards(FirstName, LastName, PhoneNumber, Email, UserID) VALUES ('Marjory', 'Blink', '2225556666', "Marjory@gmail.com", '1');
+insert into ContactCards(FirstName, LastName, PhoneNumber, Email, UserID) VALUES ('John', 'Smith', '7479008644', "Example@gmail.com", '1');
+insert into ContactCards(FirstName, LastName, PhoneNumber, Email, UserID) VALUES ('Mary', 'Perez', '5615346781', "Mary@hotmail.com", '1');
+
+insert into ContactCards(FirstName, LastName, PhoneNumber, Email, UserID) VALUES ('Lewis', 'Clark', '7475449125', "Lewisclark@aol.com", '2');
+insert into ContactCards(FirstName, LastName, PhoneNumber, Email, UserID) VALUES ('Sarah', 'Carter', '1234567890', "Sarahcarter@gmail.com", '2');
+insert into ContactCards(FirstName, LastName, PhoneNumber, Email, UserID) VALUES ('John', 'Carter', '7477891125', "Johnjarter@gmail.com", '2');
+insert into ContactCards(FirstName, LastName, PhoneNumber, Email, UserID) VALUES ('John', 'Crater', '4235567800', "Jcrater@gmail.com", '2');
+insert into ContactCards(FirstName, LastName, PhoneNumber, Email, UserID) VALUES ('John', '', '1111111111', "Jj@gmail.com", '2');
+insert into ContactCards(FirstName, LastName, PhoneNumber, Email, UserID) VALUES ('', 'Pat', '4126789214', "patty@gmail.com", '2');
+
+
+insert into ContactCards(FirstName, LastName, PhoneNumber, Email, UserID) VALUES ('Jason', 'Sanders', '7277005544', "Jsand@gmail.com", '3');
+insert into ContactCards(FirstName, LastName, PhoneNumber, Email, UserID) VALUES ('Morgan', 'Blink', '4414424433', "Mblink@gmail.com", '3');
+insert into ContactCards(FirstName, LastName, PhoneNumber, Email, UserID) VALUES ('Jonathan', 'Ryan', '7275550000', "Jry@gmail.com", '3');
+insert into ContactCards(FirstName, LastName, PhoneNumber, Email, UserID) VALUES ('Skyler', 'Blink', '7778889999', "Skyblink@gmail.com", '3');
+insert into ContactCards(FirstName, LastName, PhoneNumber, Email, UserID) VALUES ('Jon', 'Ryan', '7278888777', "Jryan@gmail.com", '3');
+insert into ContactCards(FirstName, LastName, PhoneNumber, Email, UserID) VALUES ('Sky', 'Blathers', '7772225555', "Sky@gmail.com", '3');
